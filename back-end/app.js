@@ -1,6 +1,6 @@
 const cors = require('cors')
 const express = require('express')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 
 // create express app
 const app = express()
@@ -12,9 +12,9 @@ app.use(cors())
 app.use(bodyParser.json())
 
 require('./routes/clientRoutes')(app)
-require('./routes/productRoutes')(app)
-require('./routes/transactionRoutes')(app)
-require('./routes/storeRoutes')(app)
-require('./routes/statsRoutes')(app)
+// require('./routes/productRoutes')(app)
+// require('./routes/transactionRoutes')(app)
+// require('./routes/storeRoutes')(app)
+// require('./routes/statsRoutes')(app)
 
 module.exports = app

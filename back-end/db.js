@@ -2,15 +2,16 @@ const config = require('config')
 const mysql = require('mysql')
 
 //connect to the database
-let connection = mysql.createConnection({
+let db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: config.get('dbPassword')
+    password: config.get('dbPassword'),
+    database: "indlovu"
   })
   
-connection.connect(err => {
+db.connect(err => {
     if (err) throw err;
     else console.log("Successfully connected to the database.")
 })
 
-module.exports = connection
+module.exports = db

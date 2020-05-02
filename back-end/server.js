@@ -1,18 +1,7 @@
-const config = require('config')
-const mysql = require('mysql')
 const app = require('./app')
 
 //connect to the database
-let connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: config.get('dbPassword')
-  })
-  
-connection.connect(err => {
-    if (err) throw err;
-    else console.log("Successfully connected to the database.")
-})
+require('./db')
 
 // listen for requests
 app.listen(8765, () => {

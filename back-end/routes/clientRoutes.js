@@ -10,5 +10,5 @@ module.exports = (app) => {
         .put(updateClient)
         .delete(deleteClient)
 
-    app.get('/db/api/clients/:client/transactions')
+    // app.get('/db/api/clients/:client/transactions')
 }
