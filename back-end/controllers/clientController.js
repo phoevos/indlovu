@@ -140,35 +140,26 @@ function getHours (req, res) {
 
 exports.getHours = getHours
 
-function getAverageMonth (req, res) {
-    getDateTime = 
-        "SELECT date_time AS time FROM transactions " 
-        + `WHERE card_id=${req.params.client};`
-    db.query(getDateTime, (err, rows) => {
+function getAverage (req, res) {
+    getByMonth = 
+        "SELECT AVG( total_month ) average_per_month, AVG( total_week ) average_per_week " 
+        + "FROM (SELECT date_time, SUM( total_amount ) total_month "
+               + "FROM  transactions "
+               + `WHERE card_id=${req.params.client} `
+               + "GROUP BY MONTH( date_time ) "
+               + ") amount_per_month, "
+             + "(SELECT date_time, SUM( total_amount ) total_week "
+               + "FROM  transactions "
+               + `WHERE card_id=${req.params.client} `
+               + "GROUP BY WEEK( date_time ) "
+               + ") amount_per_week "
+
+    db.query(getByMonth, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else {
-            // extract the hours from the date_time object
-            const months = Object.keys(rows).map(key => rows[key].time.getMonth())
-
-            let result = new Array(12).fill(0);
-
-            // create an array describing the distribution of transactions
-            months.forEach(i => {
-                result[parseInt(i)]++
-            })
-            res.send(result)
+            res.send(rows)
         }
     })
 }
 
-exports.getAverageMonth = getAverageMonth
-
-function getAverageYear (req, res) {
-    getAmount = `SELECT * FROM customer WHERE card_id=${req.params.client};`
-    db.query(getFavourites, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else res.send(rows)
-    })
-}
-
-exports.getAverageYear = getAverageYear
+exports.getAverage = getAverage
