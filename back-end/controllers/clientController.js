@@ -1,4 +1,9 @@
 const db = require('../db')
+const { removeAllListeners } = require('nodemon')
+
+function mapHours () {
+
+}
 
 function getClientList (req, res) {
     getClients = "SELECT c.card_id, c.name, c.city FROM customer AS c;"
@@ -78,3 +83,92 @@ function deleteClient (req, res) {
 }
 
 exports.deleteClient = deleteClient
+
+function getFavouriteProducts (req, res) {
+    getFavourites = 
+        "SELECT DISTINCT c.barcode, p.name, p.brand_name "
+        + "FROM transactions AS t "
+        + "JOIN contain AS c USING (date_time) "
+        + "JOIN products AS p USING (barcode) "
+        + `WHERE card_id=${req.params.client} `
+        + "ORDER BY (SELECT COUNT(c.barcode) "
+                    + "FROM transactions AS t "
+                    + "JOIN contain AS c USING (date_time) "
+                    + `WHERE card_id=${req.params.client}) `
+        + "DESC LIMIT 10;"
+
+    db.query(getFavourites, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send(rows)
+    })
+}
+
+exports.getFavouriteProducts = getFavouriteProducts
+
+function getVisitedStores (req, res) {
+    getStores = 
+        "SELECT s.store_id, s.street, s.number, s.city, s.postal_code FROM transactions AS t "
+        + "LEFT JOIN store AS s ON t.store_id = s.store_id "
+        + `WHERE card_id=${req.params.client};`
+    db.query(getStores, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send(rows)
+    })
+}
+
+exports.getVisitedStores = getVisitedStores
+
+function getHours (req, res) {
+    getDateTime = 
+        "SELECT date_time AS time FROM transactions " 
+        + `WHERE card_id=${req.params.client};`
+    db.query(getDateTime, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            // extract the hours from the date_time object
+            const hours = Object.keys(rows).map(key => rows[key].time.getHours())
+            let result = new Array(24).fill(0);
+
+            // create an array describing the distribution of transactions
+            hours.forEach(i => {
+                result[parseInt(i)]++
+            })
+            res.send(result)
+        }
+    })
+}
+
+exports.getHours = getHours
+
+function getAverageMonth (req, res) {
+    getDateTime = 
+        "SELECT date_time AS time FROM transactions " 
+        + `WHERE card_id=${req.params.client};`
+    db.query(getDateTime, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            // extract the hours from the date_time object
+            const months = Object.keys(rows).map(key => rows[key].time.getMonth())
+
+            let result = new Array(12).fill(0);
+
+            // create an array describing the distribution of transactions
+            months.forEach(i => {
+                result[parseInt(i)]++
+            })
+            res.send(result)
+        }
+    })
+}
+
+exports.getAverageMonth = getAverageMonth
+
+function getAverageYear (req, res) {
+    getAmount = `SELECT * FROM customer WHERE card_id=${req.params.client};`
+    db.query(getFavourites, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send(rows)
+    })
+}
+
+exports.getAverageYear = getAverageYear
