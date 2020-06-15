@@ -1,9 +1,4 @@
 const db = require('../db')
-const { removeAllListeners } = require('nodemon')
-
-function mapHours () {
-
-}
 
 function getClientList (req, res) {
     getClients = "SELECT c.card_id, c.name, c.city FROM customer AS c;"
