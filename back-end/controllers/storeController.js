@@ -11,19 +11,32 @@ function getStoreList (req, res) {
 exports.getStoreList = getStoreList
 
 function createStore (req, res) {
-    newStore = 
-    "INSERT INTO stores (opening_hours, phone_id, size, street, number, postal_code, city)"
+    const phones = req.body.phone
+    const newStore = 
+    "INSERT INTO stores (opening_hours, size, street, number, postal_code, city)"
         + "VALUES ("
         + `'${req.body.opening_hours}',`
-        + `'${req.body.phone_id}',`
         + `${req.body.size},`
         + `'${req.body.street}',`
         + `${req.body.number},`
         + `${req.body.postal_code},`
         + `'${req.body.city}');`
+    
     db.query(newStore, (err, rows) => {
         if(err) res.status(400).send(err.message) 
-        else res.send({"store_id": rows.insertId})
+        else {
+            let insertPhones
+            let store = rows.insertId
+            phones.forEach(phone => {
+                insertPhones += `INSERT INTO phones VALUES (${phone}, ${store}); `
+            })
+            db.query(insertPhones, (err, rows) => {
+                if(err) res.status(400).send(err.message) 
+                else {
+                    res.send(store)
+                }
+            })
+        }
     })
 }
 
@@ -40,26 +53,45 @@ function getStore (req, res) {
             const result = {...rows[0], phones}
             res.send(result)
         }
-        // else res.send(rows)
     })
 }
 
 exports.getStore = getStore
 
 function updateStore (req, res) {
-    const opening_hours = (req.body.opening_hours) ? `opening_hours='${req.body.opening_hours}',` : ""
-    const phone_id = (req.body.phone_id) ? `phone_id='${req.body.phone_id}',` : ""
+    const store = req.params.store
+    const opening_hours = (req.body.opening_hours) ? `operating_hours='${req.body.operating_hours}',` : ""
     const size = (req.body.size) ? `size=${req.body.size},` : ""
     const street = (req.body.street) ? `street='${req.body.street}',` : ""
     const number = (req.body.number) ? `number=${req.body.number},` : ""
     const postal_code = (req.body.postal_code) ? `postal_code=${req.body.postal_code},` : ""
-    const city = (req.body.city) ? `city='${req.body.city}',` : ""
-    let newStore = `UPDATE stores SET ${opening_hours} ${phone_id} ${size} ${street} `
-            + `${number} ${postal_code} ${city} `
-    newStore = newStore.slice(0,-2) + ` WHERE store_id=${req.params.store};`
+    const city = (req.body.city) ? `city='${req.body.city}'` : ""
+    const phones = (req.body.phone)
+    let newStore = `UPDATE stores SET ${opening_hours} ${size} ${street} `
+            + `${number} ${postal_code} ${city} WHERE store_id=${store};`
+            
+    let deletePhones = `DELETE phones WHERE ${store}; `
+
+    let insertPhones
+    phones.forEach(phone => {
+        insertPhones += `INSERT INTO phones VALUES (${phone}, ${store}); `
+    })
+     
     db.query(newStore, (err, rows) => {
         if(err) res.status(400).send(err.message) 
-        else res.send({"message": rows.message})
+        else {
+            db.query(deletePhones, (err, rows) => {
+                if(err) res.status(400).send(err.message) 
+                else {
+                    db.query(insertPhones, (err, rows) => {
+                        if(err) res.status(400).send(err.message) 
+                        else {
+                            res.send(store)
+                        }
+                    })
+                }
+            })
+        }
     })
 }
 

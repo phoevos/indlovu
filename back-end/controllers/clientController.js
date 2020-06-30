@@ -57,10 +57,10 @@ function updateClient (req, res) {
     const city = (req.body.city) ? `city='${req.body.city}',` : ""
     const name = (req.body.name) ? `name='${req.body.name}',` : ""
     const date_of_birth = (req.body.date_of_birth) ? `date_of_birth='${req.body.date_of_birth}',` : ""
-    const points = (req.body.points) ? `points=${req.body.points},` : ""
+    const points = (req.body.points) ? `points=${req.body.points}` : ""
     let newClient = `UPDATE customer SET ${phone} ${pet} ${family_members} ${street} `
             + `${number} ${postal_code} ${city} ${name} ${date_of_birth} ${points} `
-    newClient = newClient.slice(0,-2) + ` WHERE card_id=${req.params.client};`
+            + ` WHERE card_id=${req.params.client};`
     db.query(newClient, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send({"message": rows.message})

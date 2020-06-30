@@ -40,15 +40,14 @@ function getProduct (req, res) {
 
 exports.getProduct = getProduct
 
-// I have to fix the slice part. 
 function updateProduct (req, res) {
     const name = (req.body.name) ? `name='${req.body.name}',` : ""
     const brand_name = (req.body.brand_name) ? `brand_name='${req.body.brand_name}',` : ""
     const price = (req.body.price) ? `price=${req.body.price},` : ""
     const first_transaction = (req.body.first_transaction) ? `first_transaction='${req.body.first_transaction}',` : ""
-    const category_id = (req.body.category_id) ? `category_id=${req.body.category_id},` : ""
+    const category_id = (req.body.category_id) ? `category_id=${req.body.category_id}` : ""
     let newProduct = `UPDATE products SET ${name} ${brand_name} ${price} ${first_transaction} ${category_id} `
-    newProduct = newProduct.slice(0,-2) + ` WHERE barcode=${req.params.product};`
+                    + ` WHERE barcode=${req.params.product};`
     db.query(newProduct, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send({"message": rows.message})
@@ -69,7 +68,8 @@ exports.deleteProduct = deleteProduct
 
 function getHistory (req, res) {
     getHistoryById = 
-        `SELECT * FROM older_prices AS o WHERE o.barcode=${req.params.product};`
+        `SELECT * FROM older_prices AS o WHERE o.barcode=${req.params.product} `
+        + "ORDER BY start_date DESC;"
     db.query(getHistoryById, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send(rows)
