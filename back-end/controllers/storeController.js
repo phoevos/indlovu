@@ -30,10 +30,17 @@ function createStore (req, res) {
 exports.createStore = createStore
 
 function getStore (req, res) {
-    getStoreById = `SELECT * FROM stores WHERE store_id=${req.params.store}`
+    getStoreById = "SELECT * FROM stores "
+                + "JOIN phones USING (store_id) "
+                + `WHERE store_id=${req.params.store}`
     db.query(getStoreById, (err, rows) => {
         if(err) res.status(400).send(err.message) 
-        else res.send(rows)
+        else {
+            const phones = Object.keys(rows).map(key => rows[key].phone_id)
+            const result = {...rows[0], phones}
+            res.send(result)
+        }
+        // else res.send(rows)
     })
 }
 
