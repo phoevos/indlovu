@@ -1,7 +1,6 @@
 module.exports = (app) => {
-    const {getTransactions} = require('../controllers/transactionController')
+    const {getTransactions, getTransactionProducts} = require('../controllers/transactionController')
 
-    app.get('/db/api/transactions', getTransactions) // filters included inside the request body
-
-    // possible filters: store, date, amount paid, number of units per product, category, payment method
+    app.get('/db/api/transactions', getTransactions)
+    app.get('/db/api/transactions/products', getTransactionProducts)
 }
