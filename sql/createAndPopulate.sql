@@ -2,8 +2,8 @@ DROP DATABASE indlovu;
 CREATE DATABASE indlovu;
 USE indlovu;
 
-source tables.sql;
-source views.sql;
-source trigger.sql
-source populate.sql;
-#source indexes.sql;
+source ./setup/tables.sql;
+source ./setup/views.sql;
+source ./setup/trigger.sql
+source ./setup/populate.sql;
+#source ./setup/indexes.sql;
