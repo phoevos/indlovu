@@ -34,8 +34,10 @@ function getTransactionProducts (req, res) {
     getTransactionsFilter = "SELECT * FROM transactions "
                             + "JOIN contain USING(date_time) "
                             + "JOIN products USING(barcode) "
-                            + `WHERE ${date_time} ${total_amount} ${pieces} ${category} ${paymentMethod} ${store}`
+                            + `WHERE ${date_time} ${total_amount} ${pieces} ${category} ${paymentMethod} ${store} `
                             + "ORDER BY date_time DESC;"
+    console.log(getTransactionsFilter);
+                            
 
     db.query(getTransactionsFilter, (err, rows) => {
         if(err) res.status(400).send(err.message)
