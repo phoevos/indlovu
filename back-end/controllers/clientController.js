@@ -103,7 +103,7 @@ exports.getFavouriteProducts = getFavouriteProducts
 function getVisitedStores (req, res) {
     getStores = 
         "SELECT s.store_id, s.street, s.number, s.city, s.postal_code FROM transactions AS t "
-        + "LEFT JOIN store AS s ON t.store_id = s.store_id "
+        + "JOIN stores AS s USING(store_id) "
         + `WHERE card_id=${req.params.client};`
     db.query(getStores, (err, rows) => {
         if(err) res.status(400).send(err.message) 
@@ -114,22 +114,15 @@ function getVisitedStores (req, res) {
 exports.getVisitedStores = getVisitedStores
 
 function getHours (req, res) {
-    getDateTime = 
-        "SELECT date_time AS time FROM transactions " 
-        + `WHERE card_id=${req.params.client};`
-    db.query(getDateTime, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else {
-            // extract the hours from the date_time object
-            const hours = Object.keys(rows).map(key => rows[key].time.getHours())
-            let result = new Array(24).fill(0);
+    getHourlySum = 
+        "SELECT HOUR(date_time) AS hour, SUM(total_amount) AS total FROM transactions "
+        + `WHERE card_id=${req.params.client} `
+        + "GROUP BY hour "
+        + "ORDER BY hour; "
 
-            // create an array describing the distribution of transactions
-            hours.forEach(i => {
-                result[parseInt(i)]++
-            })
-            res.send(result)
-        }
+    db.query(getHourlySum, (err, rows) => {
+        if (err) res.status(400).send(err.message)
+        else res.send(rows)
     })
 }
 
