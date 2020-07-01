@@ -104,10 +104,10 @@ function getVisitedStores (req, res) {
     getStores = 
         "SELECT COUNT(*) AS times_visited, store_id, street, number, city, postal_code FROM transactions "
         + "JOIN stores USING(store_id) "
-        + `WHERE card_id=${req.params.client}`
+        + `WHERE card_id=${req.params.client} `
         + "GROUP BY store_id "
         + "ORDER BY times_visited DESC; "
-        
+
     db.query(getStores, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send(rows)
