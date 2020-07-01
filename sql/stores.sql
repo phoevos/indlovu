@@ -1,0 +1,10 @@
+INSERT INTO stores VALUES (1,'09:00:00 21:00:00',500,'Leoforos Athinon',266,12462,'Athens');
+INSERT INTO stores VALUES (2,'09:00:00 21:00:00',400,'Efessous',100,12042,'Thessaloniki');
+INSERT INTO stores VALUES (3,'09:00:00 21:00:00',250,'Ploutonos',16,11257,'Thessaloniki');
+INSERT INTO stores VALUES (4,'09:00:00 21:00:00',500,'Panormou',2,11595,'Thessaloniki');
+INSERT INTO stores VALUES (5,'09:00:00 21:00:00',500,'Kyprion Agoniston',70,15126,'Athens');
+INSERT INTO stores VALUES (6,'09:00:00 21:00:00',500,'Kalergi',6,42455,'Peiraeus');
+INSERT INTO stores VALUES (7,'09:00:00 21:00:00',500,'Prasinou Lofou',141,12682,'Athens');
+INSERT INTO stores VALUES (8,'09:00:00 21:00:00',500,'Nisirou',65,72857,'Athens');
+INSERT INTO stores VALUES (9,'09:00:00 21:00:00',500,'Militou',46,14440,'Athens');
+INSERT INTO stores VALUES (10,'09:00:00 21:00:00',500,'Stratigi',2,13587,'Athens');
