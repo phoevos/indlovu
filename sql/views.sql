@@ -7,7 +7,7 @@ GROUP BY category_id, store_id
 ORDER BY category_id, store_id;
 
 
-CREATE VIEW customer_info AS
+CREATE VIEW customer_view AS
 SELECT cl.name AS customer, c.name AS category, store_id AS store, SUM(total_amount) AS total FROM customer AS cl
 JOIN transactions AS t USING(card_id)
 JOIN contain USING(date_time)

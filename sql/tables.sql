@@ -69,11 +69,12 @@ CREATE TABLE transactions (
 
 
 CREATE TABLE older_prices (
-    start_date DATE PRIMARY KEY,
+    start_date DATE,
     price DECIMAL (10,2),
     end_date DATE,
-    barcode INT,
-    FOREIGN KEY (barcode) REFERENCES products (barcode) ON DELETE SET NULL
+    barcode INT ,
+    PRIMARY KEY (start_date, barcode),
+    FOREIGN KEY (barcode) REFERENCES products (barcode)
 );
 
 
