@@ -11,7 +11,7 @@ function getClientList (req, res) {
 exports.getClientList = getClientList
 
 function createClient (req, res) {
-    const pet = req.body.pet ? 'req.body.pet' : null
+    const pet = req.body.pet ? `'${req.body.pet}'` : null
     newClient = 
     "INSERT INTO customer (phone, pet, family_members, street, number, postal_code, city, name, date_of_birth, points)"
         + "VALUES ("
@@ -49,7 +49,7 @@ function updateClient (req, res) {
     // if (!pet) pet = ""
     // else if (pet == "NULL") pet = null
     // else pet = `pet='${req.body.pet}',`
-    const pet = (req.body.pet) ? `pet='${req.body.pet}',` : ""
+    const pet = (req.body.pet) ? `pet='${req.body.pet}',` : null
     const family_members = (req.body.family_members) ? `family_members=${req.body.family_members},` : ""
     const street = (req.body.street) ? `street='${req.body.street}',` : ""
     const number = (req.body.number) ? `number=${req.body.number},` : ""
