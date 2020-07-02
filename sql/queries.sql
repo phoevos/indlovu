@@ -1,11 +1,12 @@
-use indlovu;
-
 ##
 # products usually bought together
 ##
-SELECT COUNT(c1.date_time) AS times, c1.barcode AS product1, c2.barcode AS product2 FROM contain AS c1 
-CROSS JOIN contain AS c2 ON c1.barcode != c2.barcode AND c1.date_time = c2.date_time 
-GROUP BY product1, product2 
+SELECT COUNT(c1.date_time) AS times, p1.name AS name1, p1.brand_name AS brand1, p2.name AS name2, p2.brand_name AS brand2
+FROM contain AS c1 
+CROSS JOIN contain AS c2 ON c1.barcode < c2.barcode AND c1.date_time = c2.date_time 
+JOIN products AS p1 ON c1.barcode=p1.barcode
+JOIN products AS p2 ON c2.barcode=p2.barcode
+GROUP BY c1.barcode, c2.barcode
 ORDER BY times DESC LIMIT 10;
 
 ##
