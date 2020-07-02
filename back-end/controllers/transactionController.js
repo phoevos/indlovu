@@ -7,7 +7,7 @@ function getTransactions (req, res) {
     const paymentMethod = (req.body.payment_method) ? `payment_method='${req.body.payment_method}' AND` : ""
     const store = `store_id=${req.body.store_id}`
 
-    getTransactionsFilter = "SELECT date_time, total_amount, payment_method, SUM(pieces) AS total_pieces FROM transactions "
+    getTransactionsFilter = "SELECT date_time, total_amount, payment_method, SUM(pieces) AS total_pieces, card_id FROM transactions "
                             + "JOIN contain USING(date_time) "
                             + "JOIN products USING(barcode) "
                             + `WHERE ${date_time} ${total_amount} ${paymentMethod} ${store} `
@@ -31,11 +31,14 @@ function getTransactionProducts (req, res) {
     const paymentMethod = (req.body.payment_method) ? `payment_method='${req.body.payment_method}' AND` : ""
     const store = `store_id=${req.body.store_id}`
 
-    getTransactionsFilter = "SELECT * FROM transactions "
-                            + "JOIN contain USING(date_time) "
-                            + "JOIN products USING(barcode) "
-                            + `WHERE ${date_time} ${total_amount} ${pieces} ${category} ${paymentMethod} ${store} `
-                            + "ORDER BY date_time DESC;"                            
+    getTransactionsFilter = 
+        "SELECT date_time, total_amount, payment_method, card_id, p.name AS product, p.brand_name AS brand, c.name AS category, pieces "
+            + "FROM transactions "
+            + "JOIN contain USING(date_time) "
+            + "JOIN products AS p USING(barcode) "
+            + "JOIN category AS c USING(category_id) "
+            + `WHERE ${date_time} ${total_amount} ${pieces} ${category} ${paymentMethod} ${store} `
+            + "ORDER BY date_time DESC;"                            
 
     db.query(getTransactionsFilter, (err, rows) => {
         if(err) res.status(400).send(err.message)
