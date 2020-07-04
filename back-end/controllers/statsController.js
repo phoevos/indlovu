@@ -133,7 +133,7 @@ function monthlyPrize (req, res) {
         + "GROUP BY card_id "
         + "ORDER BY award DESC LIMIT 1;"
 
-    db.query(getMostPoints, (err, rows) => {
+    db.query(getPrize, (err, rows) => {
         if (err) res.status(400).send(err.message)
         else res.send(rows)
     })
