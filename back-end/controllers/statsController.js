@@ -69,43 +69,39 @@ exports.hoursPerProfit = hoursPerProfit
 
 function clientAgePerHour (req, res) {
     getAgePerHour = 
-        "SELECT COUNT(*)/( "
+        "SELECT HOUR(date_time) AS hour, COUNT(*)/( "
             + "SELECT COUNT(*) FROM transactions "
-            + "JOIN customer USING(card_id) "
-            + "WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 18 AND 24 "
-            + ") * 100 AS percentage, HOUR(date_time) AS hour, '18-24' AS age_group "
+            + "WHERE HOUR(date_time) = hour "
+            + ") * 100 AS percentage, '18-24' AS age_group "
         + "FROM transactions "
         + "JOIN customer USING(card_id) "
         + "WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 18 AND 24 "
         + "GROUP BY age_group, hour "
         + "UNION "
-        + "SELECT COUNT(*)/( "
+        + "SELECT HOUR(date_time) AS hour, COUNT(*)/( "
             + "SELECT COUNT(*) FROM transactions "
-            + "JOIN customer USING(card_id) "
-            + "WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 25 AND 39 "
-        + ") * 100 AS percentage, HOUR(date_time) AS hour, '25-39' AS age_group FROM transactions "
+            + "WHERE HOUR(date_time) = hour "
+        + ") * 100 AS percentage, '25-39' AS age_group FROM transactions "
         + "JOIN customer USING(card_id) "
         + "WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 25 AND 39 "
         + "GROUP BY age_group, hour "
         + "UNION "
-        + "SELECT COUNT(*)/( "
+        + "SELECT HOUR(date_time) AS hour, COUNT(*)/( "
             + "SELECT COUNT(*) FROM transactions "
-            + "JOIN customer USING(card_id) "
-            + "WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 40 AND 64 "
-        + ") * 100 AS percentage, HOUR(date_time) AS hour, '40-64' AS age_group FROM transactions "
+            + "WHERE HOUR(date_time) = hour "
+        + ") * 100 AS percentage, '40-64' AS age_group FROM transactions "
         + "JOIN customer USING(card_id) "
         + "WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 40 AND 64 "
         + "GROUP BY age_group, hour "
         + "UNION "
-        + "SELECT COUNT(*)/( "
+        + "SELECT HOUR(date_time) AS hour, COUNT(*)/( "
             + "SELECT COUNT(*) FROM transactions "
-            + "JOIN customer USING(card_id) "
-            + "WHERE YEAR(NOW())-YEAR(date_of_birth) >= 65 "
-        + ") * 100 AS percentage, HOUR(date_time) AS hour, '65+' AS age_group FROM transactions "
+            + "WHERE HOUR(date_time) = hour "
+        + ") * 100 AS percentage, '65+' AS age_group FROM transactions "
         + "JOIN customer USING(card_id) "
         + "WHERE YEAR(NOW())-YEAR(date_of_birth) >= 65 "
         + "GROUP BY age_group, hour "
-        + "ORDER BY age_group, hour; "
+        + "ORDER BY hour; "
 
     db.query(getAgePerHour, (err, rows) => {
         if (err) res.status(400).send(err.message)
@@ -129,3 +125,18 @@ function hallOfFame (req, res) {
 
 exports.hallOfFame = hallOfFame
 
+function monthlyPrize (req, res) {
+    getPrize = 
+        "SELECT name, FLOOR(SUM(total_amount)*0.7) AS award FROM transactions "
+        + "JOIN customer USING(card_id) "
+        + "WHERE MONTH(date_time) = MONTH(NOW()) "
+        + "GROUP BY card_id "
+        + "ORDER BY award DESC LIMIT 1;"
+
+    db.query(getMostPoints, (err, rows) => {
+        if (err) res.status(400).send(err.message)
+        else res.send(rows)
+    })
+}
+
+exports.monthlyPrize = monthlyPrize

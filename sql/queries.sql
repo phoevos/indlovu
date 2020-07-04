@@ -10,59 +10,11 @@ GROUP BY c1.barcode, c2.barcode
 ORDER BY times DESC LIMIT 10;
 
 ##
-# hour / profit
-##
-SELECT HOUR(date_time) hour, SUM(total_amount) amount
-FROM transactions
-GROUP BY HOUR(date_time)
-ORDER BY amount DESC;
-
-##
 # most popular locations
 ##
 SELECT alley, shelf, COUNT(barcode) AS number_of_products FROM offers 
 GROUP BY alley, shelf 
 ORDER BY COUNT(barcode) DESC LIMIT 10;
-
-##
-# transactions / hour per age_group
-##
-SELECT COUNT(*)/(
-	SELECT COUNT(*) FROM transactions
-	JOIN customer USING(card_id)
-	WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 18 AND 24
-) * 100 AS percentage, HOUR(date_time) AS hour, "18-24" AS age_group FROM transactions
-JOIN customer USING(card_id)
-WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 18 AND 24
-GROUP BY age_group, hour
-UNION
-SELECT COUNT(*)/(
-	SELECT COUNT(*) FROM transactions
-	JOIN customer USING(card_id)
-	WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 25 AND 39
-) * 100 AS percentage, HOUR(date_time) AS hour, "25-39" AS age_group FROM transactions
-JOIN customer USING(card_id)
-WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 25 AND 39
-GROUP BY age_group, hour
-UNION
-SELECT COUNT(*)/(
-	SELECT COUNT(*) FROM transactions
-	JOIN customer USING(card_id)
-	WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 40 AND 64
-) * 100 AS percentage, HOUR(date_time) AS hour, "40-64" AS age_group FROM transactions
-JOIN customer USING(card_id)
-WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 40 AND 64
-GROUP BY age_group, hour
-UNION
-SELECT COUNT(*)/(
-	SELECT COUNT(*) FROM transactions
-	JOIN customer USING(card_id)
-	WHERE YEAR(NOW())-YEAR(date_of_birth) >= 65
-) * 100 AS percentage, HOUR(date_time) AS hour, "65+" AS age_group FROM transactions
-JOIN customer USING(card_id)
-WHERE YEAR(NOW())-YEAR(date_of_birth) >= 65
-GROUP BY age_group, hour
-ORDER BY age_group, hour;
 
 ##
 # market label / total per category
@@ -77,5 +29,56 @@ FROM transactions
 JOIN contain USING(date_time)
 JOIN products AS p USING(barcode)
 WHERE market_label=true
-GROUP BY category_id
+GROUP BY category_id;
 
+##
+# hour / profit
+##
+SELECT HOUR(date_time) hour, SUM(total_amount) amount
+FROM transactions
+GROUP BY HOUR(date_time)
+ORDER BY amount DESC;
+
+##
+# transactions / hour per age_group
+##
+SELECT HOUR(date_time) AS hour, COUNT(*)/(
+	SELECT COUNT(*) FROM transactions
+	WHERE HOUR(date_time) = hour
+) * 100 AS percentage, "18-24" AS age_group FROM transactions
+JOIN customer USING(card_id)
+WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 18 AND 24
+GROUP BY age_group, hour
+UNION
+SELECT HOUR(date_time) AS hour, COUNT(*)/(
+	SELECT COUNT(*) FROM transactions
+	WHERE HOUR(date_time) = hour
+) * 100 AS percentage, "25-39" AS age_group FROM transactions
+JOIN customer USING(card_id)
+WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 25 AND 39
+GROUP BY age_group, hour
+UNION
+SELECT HOUR(date_time) AS hour, COUNT(*)/(
+	SELECT COUNT(*) FROM transactions
+	WHERE HOUR(date_time) = hour
+) * 100 AS percentage, "40-64" AS age_group FROM transactions
+JOIN customer USING(card_id)
+WHERE YEAR(NOW())-YEAR(date_of_birth) BETWEEN 40 AND 64
+GROUP BY age_group, hour
+UNION
+SELECT HOUR(date_time) AS hour, COUNT(*)/(
+	SELECT COUNT(*) FROM transactions
+	WHERE HOUR(date_time) = hour
+) * 100 AS percentage, "65+" AS age_group FROM transactions
+JOIN customer USING(card_id)
+WHERE YEAR(NOW())-YEAR(date_of_birth) >= 65
+GROUP BY age_group, hour
+ORDER BY hour;
+
+##
+#  hall of fame
+##
+SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(name, ' ', 1), ' ', -1) AS name, 
+		YEAR(NOW())-YEAR(date_of_birth) AS age, points 
+FROM customer 
+ORDER BY points DESC LIMIT 5;

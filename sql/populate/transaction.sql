@@ -19,6 +19,11 @@ INSERT INTO transactions VALUES('2020-05-10 10-49-52',110,'cash',1030,8);
 INSERT INTO transactions VALUES('2020-05-19 11-10-22',95,'cash',1036,1);
 INSERT INTO transactions VALUES('2020-05-14 15-16-20',113,'card',1037,9);
 INSERT INTO transactions VALUES('2020-06-06 15-02-17',101,'cash',1038,9);
+
+INSERT INTO transactions VALUES('2020-02-05 09-02-17',50,'cash',1038,9);
+INSERT INTO transactions VALUES('2020-03-04 16-39-17',28,'cash',1038,9);
+INSERT INTO transactions VALUES('2020-04-013 16-02-17',200,'cash',1038,9);
+
 INSERT INTO transactions VALUES('2020-03-29 16-05-00',18,'card',1005,10);
 INSERT INTO transactions VALUES('2020-04-21 18-59-55',69,'cash',1020,10);
 INSERT INTO transactions VALUES('2020-03-16 12-02-21',90,'card',1004,9);
@@ -60,6 +65,11 @@ INSERT INTO transactions VALUES('2020-02-20 10-55-10',199,'cash',1031,4);
 INSERT INTO transactions VALUES('2020-02-08 13-25-15',20,'cash',1031,4);
 INSERT INTO transactions VALUES('2020-06-18 15-19-22',33,'cash',1031,4);
 
+INSERT INTO transactions VALUES('2020-07-04 09-19-22',33,'cash',1017,4);
+INSERT INTO transactions VALUES('2020-07-03 10-23-22',50,'cash',1017,4);
+INSERT INTO transactions VALUES('2020-07-02 11-19-22',88,'card',1017,4);
+INSERT INTO transactions VALUES('2020-07-01 12-00-22',33,'cash',1017,4);
+INSERT INTO transactions VALUES('2020-06-18 15-19-22',33,'cash',1017,4);
 
 
 

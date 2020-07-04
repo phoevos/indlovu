@@ -6,7 +6,7 @@ INSERT INTO customer VALUES(1004,'6984125695','Dog',4,'Aggelou Blachou',14,11146
 INSERT INTO customer VALUES(1005,'6983855696',null,5,'Balbis',06,11146,'Athens','Spiros Lontos','1992-01-30',90);
 INSERT INTO customer VALUES(1006,'6982715591','Dog',5,'Terpsitheas',20,11146,'Athens','Giorgos Zanos','1980-08-09',110);
 INSERT INTO customer VALUES(1007,'6981855690',null,3,'Samou',10,11146,'Athens','Despoina Litras','1970-11-15',60);
-INSERT INTO customer VALUES(1008,'6979855699',null,6,'Bosporou',13,11146,'Peiraeus','Eleftheria Lazopoulou','1988-10-25',00);
+INSERT INTO customer VALUES(1008,'6979855699',null,6,'Bosporou',13,11146,'Peiraeus','Eleftheria Lazopoulou','1958-10-25',00);
 INSERT INTO customer VALUES(1009,'6978755698',null,7,'Koletti',15,11146,'Thessaloniki','Anna Zerbou','1991-04-12',100);
 INSERT INTO customer VALUES(1010,'6977865698','Dog',6,'Aigaiou',09,11146,'Athens','Sofia Euthimiou','1968-10-07',150);
 INSERT INTO customer VALUES(1011,'6976857698','Dog',3,'Lesbou',14,11146,'Athens','Georgia Koromila','1986-10-07',200);
@@ -15,13 +15,13 @@ INSERT INTO customer VALUES(1013,'6974445698','Dog',5,'Panton',23,11146,'Athens'
 INSERT INTO customer VALUES(1014,'6973563998','Cat',4,'Grabias',04,11146,'Thessaloniki','Eleni Papadimos','1998-05-09',300);
 INSERT INTO customer VALUES(1015,'6972854448','Dog',3,'Thessalonikis',50,11146,'Thessaloniki','Kostantina Manola','1999-10-09',350);
 INSERT INTO customer VALUES(1016,'6971652698','Cat',6,'Santas',08,11146,'Athens','Kostas Nakos','1994-06-05',10);
-INSERT INTO customer VALUES(1017,'6949811574','Cat',8,'Egnatias',24,11146,'Thessaloniki','Argiro Sirigou','1994-06-08',50);
+INSERT INTO customer VALUES(1017,'6949811574','Cat',8,'Egnatias',24,11146,'Thessaloniki','Argiro Sirigou','1944-06-08',50);
 INSERT INTO customer VALUES(1018,'6948823210','Dog',10,'Eirinis',26,11146,'Athens','Maria Loupi','1978-07-09',20);
 INSERT INTO customer VALUES(1019,'6947859904',null,7,'Leibadias',30,11146,'Athens','Nektarios Liapis','1998-08-15',160);
 INSERT INTO customer VALUES(1020,'6946052602','Cat',7,'Korinthias',02,10132,'Athens','Spiros Tsokos','1960-12-25',40);
 INSERT INTO customer VALUES(1021,'6945250772','Dog',2,'Theofanous',06,10199,'Athens','Manolis Flessas','1984-11-11',120);
 INSERT INTO customer VALUES(1022,'6944785785',null,9,'Eslin',10,10358,'Athens','Sofia Pasalidi','1990-01-01',50);
-INSERT INTO customer VALUES(1023,'6943498047',null,3,'Pouliou',07,18364,'Peiraeus','Maria Poulopoulou','1990-05-15',80);
+INSERT INTO customer VALUES(1023,'6943498047',null,3,'Pouliou',07,18364,'Peiraeus','Maria Poulopoulou','1950-05-15',80);
 INSERT INTO customer VALUES(1024,'6942480772',null,3,'Lamias',09,18765,'Peiraeus','Dimitra Xristopoulou','1993-10-08',90);
 INSERT INTO customer VALUES(1025,'6941788204',null,4,'Axaias',08,18665,'Peiraeus','Athina Stamou','1964-05-07',110);
 INSERT INTO customer VALUES(1026,'6909944048','Cat',5,'Mesinias',03,18589,'Peiraeus','Fotini Papaioannou','1977-12-03',80);
@@ -36,4 +36,4 @@ INSERT INTO customer VALUES(1034,'6901884112',null,2,'Baltou',36,54253,'Thessalo
 INSERT INTO customer VALUES(1035,'6939054748',null,3,'Brana',24,10439,'Athens','Balantis Meletopoulos','1966-01-12',190);
 INSERT INTO customer VALUES(1036,'6937841145',null,3,'Papada',11,10441,'Athens','Despina Rapti','1969-12-20',170);
 INSERT INTO customer VALUES(1037,'6935778955',null,3,'Tsotakou',19,10459,'Athens','Eleutheria Morali','1965-12-28',150);
-INSERT INTO customer VALUES(1038,'6933778894',null,5,'Nikita',12,10498,'Athens','Giorgos Xavelas','1992-05-26',0);
+INSERT INTO customer VALUES(1038,'6933778894',null,5,'Nikita',12,10498,'Athens','Giorgos Xavelas','1942-05-26',0);

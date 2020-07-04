@@ -45,11 +45,7 @@ exports.getClient = getClient
 
 function updateClient (req, res) {
     const phone = (req.body.phone) ? `phone='${req.body.phone}',` : ""
-    // let pet = req.body.pet
-    // if (!pet) pet = ""
-    // else if (pet == "NULL") pet = null
-    // else pet = `pet='${req.body.pet}',`
-    const pet = (req.body.pet) ? `pet='${req.body.pet}',` : null
+    const pet = (req.body.pet) ? `pet='${req.body.pet}',` : ""
     const family_members = (req.body.family_members) ? `family_members=${req.body.family_members},` : ""
     const street = (req.body.street) ? `street='${req.body.street}',` : ""
     const number = (req.body.number) ? `number=${req.body.number},` : ""
@@ -60,9 +56,9 @@ function updateClient (req, res) {
     const points = (req.body.points) ? `points=${req.body.points}` : ""
     let newClient = `UPDATE customer SET ${phone} ${pet} ${family_members} ${street} `
             + `${number} ${postal_code} ${city} ${name} ${date_of_birth} ${points} `
-            + ` WHERE card_id=${req.params.client};`
+            + `WHERE card_id=${req.params.client};`
     db.query(newClient, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
+        if (err) res.status(400).send(err.message) 
         else res.send({"message": rows.message})
     })
 }
@@ -118,7 +114,7 @@ exports.getVisitedStores = getVisitedStores
 
 function getHours (req, res) {
     getHourlySum = 
-        "SELECT HOUR(date_time) AS hour, SUM(total_amount) AS total FROM transactions "
+        "SELECT HOUR(date_time) AS hour, COUNT(*) AS total FROM transactions "
         + `WHERE card_id=${req.params.client} `
         + "GROUP BY hour "
         + "ORDER BY hour; "

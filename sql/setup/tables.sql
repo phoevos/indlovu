@@ -74,7 +74,7 @@ CREATE TABLE older_prices (
     end_date DATE,
     barcode INT ,
     PRIMARY KEY (start_date, barcode),
-    FOREIGN KEY (barcode) REFERENCES products (barcode)
+    FOREIGN KEY (barcode) REFERENCES products (barcode) ON DELETE CASCADE
 );
 
 
